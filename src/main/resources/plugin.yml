@@ -1,0 +1,11 @@
+name: MizugashiUtil
+version: '${version}'
+main: mizugashi.mizugashiutil.MizugashiUtil
+api-version: 1.19
+authors: [ Mizugashi15 ]
+commands:
+  mz:
+  itemfix:
+permissions:
+  minezero.admin:
+    default: op
