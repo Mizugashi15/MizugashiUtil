@@ -1040,11 +1040,6 @@ public class InventoryEvent implements Listener {
                 return;
             }
 
-            if (event.getWhoClicked().getInventory().getItemInMainHand().getType() == event.getCurrentItem().getType()) {
-                event.getWhoClicked().getInventory().addItem(event.getInventory().getItem(event.getSlot()));
-                event.setCancelled(true);
-            }
-
             if (event.getSlot() == 51) {
                 Inventory inventory = Bukkit.createInventory(null, 54, prefix + " §aカスタムモデルデータ");
 
@@ -1086,6 +1081,7 @@ public class InventoryEvent implements Listener {
                 Player player = (Player) event.getWhoClicked();
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
                 event.setCancelled(true);
+                return;
             }
 
             if (event.getSlot() == 47) {
@@ -1133,6 +1129,13 @@ public class InventoryEvent implements Listener {
                 Player player = (Player) event.getWhoClicked();
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
                 event.setCancelled(true);
+                return;
+            }
+
+            if (event.getWhoClicked().getInventory().getItemInMainHand().getType() == event.getCurrentItem().getType()) {
+                event.getWhoClicked().getInventory().addItem(event.getInventory().getItem(event.getSlot()));
+                event.setCancelled(true);
+                return;
             }
 
             event.setCancelled(true);

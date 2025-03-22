@@ -17,7 +17,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -35,7 +34,6 @@ public final class MizugashiUtil extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryEvent(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractEvent(), this);
         vault = new VaultManager(this);
     }
 
@@ -56,24 +54,31 @@ public final class MizugashiUtil extends JavaPlugin implements Listener {
             ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta itemMeta = item.getItemMeta();
             if (args.length == 0) {
-
-                sender.sendMessage("§7========"+prefix+"§7=§f§l[1/3]§7=======");
-                sender.sendMessage("§f§l/mz §e§lhelp [ページ数] §r§7➡ これ表示します");
+                sender.sendMessage("§7========"+prefix+"§7========");
+                sender.sendMessage("§f§l/mz §e§lhelp [数字]");
+                sender.sendMessage(" §r§7➡ 1 [アイテムモデル]");
+                sender.sendMessage(" §r§7➡ 2 [アイテムメタ]");
+                sender.sendMessage(" §r§7➡ 3 [アイテムモディファイア]");
+                sender.sendMessage(" §r§7➡ 4 [サーバー管理]");
                 sender.sendMessage("§f§l/mz §e§lcolor §r§7➡ 装飾コードを表示します");
-                sender.sendMessage("§f§l/mz §e§lcmd §r§7➡ 手に持っているアイテムのモデル番号を表示します");
-                sender.sendMessage("§f§l/mz §e§lcmdlist");
-                sender.sendMessage(" §r§7➡ 手に持っているアイテムのカスタムモデルデータを");
-                sender.sendMessage(" §r§7➡ GUIで表示します(そのGUIのアイテムをクリックすれば入手できます)");
-                sender.sendMessage("§f§l/mz §e§lsetdata [数字]");
-                sender.sendMessage(" §r§7➡ 手に持っているアイテムをカスタムモデルデータ[数字]に設定します");
-                sender.sendMessage("§f§l/mz §e§lsetench");
-                sender.sendMessage(" §r§7➡ 右クリックで付与、左クリックでエンチャント消去ができるGUIを開きます");
-                sender.sendMessage("§f§l/mz §e§lsetflag §r§7➡ アイテムのフラグを設定するGUIを開きます");
                 sender.sendMessage("§7============================");
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
                 return true;
             }
             if (args.length == 1) {
+
+                if (args[0].equalsIgnoreCase("help")) {
+                    sender.sendMessage("§7========"+prefix+"§7========");
+                    sender.sendMessage("§f§l/mz §e§lhelp [数字]");
+                    sender.sendMessage(" §r§7➡ 1 [アイテムモデル]");
+                    sender.sendMessage(" §r§7➡ 2 [アイテムメタ]");
+                    sender.sendMessage(" §r§7➡ 3 [アイテムモディファイア]");
+                    sender.sendMessage(" §r§7➡ 4 [サーバー管理]");
+                    sender.sendMessage("§f§l/mz §e§lcolor §r§7➡ 装飾コードを表示します");
+                    sender.sendMessage("§7============================");
+                    player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+                    return true;
+                }
 
                 if (args[0].equalsIgnoreCase("servertp")) {
 
@@ -385,52 +390,68 @@ public final class MizugashiUtil extends JavaPlugin implements Listener {
 
                 if (args[0].equalsIgnoreCase("help")) {
                     if (args[1].equalsIgnoreCase("1")) {
-                        sender.sendMessage("§7========"+prefix+"§7=§f§l[1/3]§7=======");
-                        sender.sendMessage("§f§l/mz §e§lcolor §r§7➡ 装飾コードを表示します");
-                        sender.sendMessage("§f§l/mz §e§lhelp [ページ数] §r§7➡ これ表示します");
+                        sender.sendMessage("§7========"+prefix+"§7=§f§l[アイテムモデル]§7=======");
                         sender.sendMessage("§f§l/mz §e§lcmd §r§7➡ 手に持っているアイテムのモデル番号を表示します");
                         sender.sendMessage("§f§l/mz §e§lcmdlist");
                         sender.sendMessage(" §r§7➡ 手に持っているアイテムのカスタムモデルデータを");
                         sender.sendMessage(" §r§7➡ GUIで表示します(そのGUIのアイテムをクリックすれば入手できます)");
                         sender.sendMessage("§f§l/mz §e§lsetdata [数字]");
                         sender.sendMessage(" §r§7➡ 手に持っているアイテムをカスタムモデルデータ[数字]に設定します");
-                        sender.sendMessage("§f§l/mz §e§lsetench");
-                        sender.sendMessage(" §r§7➡ 右クリックで付与、左クリックでエンチャント消去ができるGUIを開きます");
-                        sender.sendMessage("§f§l/mz §e§lsetflag §r§7➡ アイテムのフラグを設定するGUIを開きます");
                         sender.sendMessage("§7============================");
                         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
                         return true;
                     }
                     if (args[1].equalsIgnoreCase("2")) {
-                        sender.sendMessage("§7========"+prefix+"§7=§f§l[2/3]§7=======");
-                        sender.sendMessage("§f§l/mz §e§lservertp §r§7➡ サーバーにいるプレイヤーを自分の位置にテレポートします");
-                        sender.sendMessage("§f§l/mz §e§lworldtp [ワールド名]");
-                        sender.sendMessage(" §r§7➡ [ワールド名]にいるプレイヤーを自分の位置にテレポートします");
-                        sender.sendMessage("§f§l/mz §e§lsetmod [mod名] [部位] 数値 [演算]");
-                        sender.sendMessage(" §r§7➡ 例: /mz setmod speed hand 0.05 add");
-                        sender.sendMessage(" §r§7➡ 例: そのアイテムを手に持っている時、移動速度が0.05加算されます");
-                        sender.sendMessage("§f§l/mz §e§ldelmod [部位]");
-                        sender.sendMessage(" §r§7➡ [部位]についているmodを削除します");
+                        sender.sendMessage("§7========"+prefix+"§7=§f§l[アイテムメタ]§7=======");
+                        sender.sendMessage("§f§l/mz §e§lsetench");
+                        sender.sendMessage(" §r§7➡ 右クリックで付与、左クリックでエンチャント消去ができるGUIを開きます");
                         sender.sendMessage("§f§l/mz §e§lsetname [名前]§r§7➡ 手に持っているアイテムの名前を変更します");
                         sender.sendMessage(" §r§7➡ (*は空白になります)");
                         sender.sendMessage("§f§l/mz §e§lsetlore [説明文] §r§7➡ 説明文を変更します");
                         sender.sendMessage(" §r§7➡ (*は空白に、;は改行になります)");
-                        sender.sendMessage("§7============================");
-                        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
-                        return true;
-                    }
-                    if (args[1].equalsIgnoreCase("3")) {
-                        sender.sendMessage("§7========"+prefix+"§7=§f§l[3/3]§7=======");
                         sender.sendMessage("§f§l/mz §e§lsetcost [数値]");
                         sender.sendMessage(" §r§7➡ 手に持っているアイテムの経験値コストを設定します");
                         sender.sendMessage("§f§l/mz §e§lname");
                         sender.sendMessage(" §r§7➡ 手に持っているアイテムの名前の装飾コードを確認します");
                         sender.sendMessage("§7============================");
-                        sender.sendMessage("   §lCreated by Mizugashi15");
+                        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+                        return true;
+                    }
+                    if (args[1].equalsIgnoreCase("3")) {
+                        sender.sendMessage("§7========"+prefix+"§7=§f§l[アイテムMOD]§7=======");
+                        sender.sendMessage("§f§l/mz §e§lsetflag §r§7➡ アイテムのフラグを設定するGUIを開きます");
+                        sender.sendMessage("§f§l/mz §e§lsetmod [mod名] [部位] 数値 [演算]");
+                        sender.sendMessage(" §r§7➡ 例: /mz setmod speed hand 0.05 add");
+                        sender.sendMessage(" §r§7➡ 例: そのアイテムを手に持っている時、移動速度が0.05加算されます");
+                        sender.sendMessage("§f§l/mz §e§ldelmod [部位]");
+                        sender.sendMessage(" §r§7➡ [部位]についているmodを削除します");
                         sender.sendMessage("§7============================");
                         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
                         return true;
                     }
+                    if (args[1].equalsIgnoreCase("4")) {
+                        sender.sendMessage("§7========"+prefix+"§7=§f§l[サーバー管理]§7=======");
+                        sender.sendMessage("§f§l/mz §e§lannounce §r§7➡ prefix無しのメッセージを全体に送ります");
+                        sender.sendMessage("§f§l/mz §e§lgamerule");
+                        sender.sendMessage(" §r§7➡ 今いるワールドのgameruleをマルチ、荒らし対策用に切り替えます");
+                        sender.sendMessage(" §r§7➡ （特定のgameruleコマンドを切り替えるだけ）");
+                        sender.sendMessage("§f§l/mz §e§lservertp §r§7➡ サーバーにいるプレイヤーを自分の位置にテレポートします");
+                        sender.sendMessage("§f§l/mz §e§lworldtp [ワールド名]");
+                        sender.sendMessage(" §r§7➡ [ワールド名]にいるプレイヤーを自分の位置にテレポートします");
+                        sender.sendMessage("§7============================");
+                        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1);
+                        return true;
+                    }
+                }
+
+                if (args[0].equalsIgnoreCase("announce")) {
+                    if (args[1].isEmpty()) {
+                        player.sendMessage(prefix + " §c使い方が間違っています");
+                        return false;
+                    }
+                    String s = args[1].replace("&", "§").replace("*", " ");
+                    getServer().broadcastMessage(s);
+                    return true;
                 }
 
                 if (args[0].equalsIgnoreCase("worldtp")) {
@@ -520,20 +541,6 @@ public final class MizugashiUtil extends JavaPlugin implements Listener {
                 }
 
             }
-//            if (args.length == 3) {
-//                if (args[0].equalsIgnoreCase("setench")) {
-//                    player.openInventory(createenchInv());
-//                    return true;
-////                    if (item.getType() == Material.AIR) {
-////                        player.sendMessage(prefix + " §c手に何かアイテムを持ってださい！");
-////                        return false;
-////                    }
-////                    itemMeta.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(args[1])), Integer.parseInt(args[2]), true);
-////                    item.setItemMeta(itemMeta);
-////                    player.sendMessage(prefix + " §e§l" + args[1] + " §rの レベル§e§l " + args[2] + " §r§lを付与しました");
-////                    return true;
-//                }
-//            }
             if (args.length == 5) {
                 if (args[0].equalsIgnoreCase("setmod")) {
                     if (item.getType() == Material.AIR) {
@@ -603,7 +610,7 @@ public final class MizugashiUtil extends JavaPlugin implements Listener {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if(args.length==1) {
-            return strings(args[0], Arrays.asList("color","cmd","setdata","setench","delmod","setflag","setname","setmod","setlore","help","cmdlist","name","setcost","gamerule","worldtp"));
+            return strings(args[0], Arrays.asList("color","cmd","setdata","setench","delmod","setflag","setname","setmod","setlore","help","cmdlist","name","setcost","gamerule","worldtp","servertp","announce"));
         }
         if(args.length==2) {
             if (args[0].equalsIgnoreCase("setmod")) {
@@ -680,37 +687,6 @@ public final class MizugashiUtil extends JavaPlugin implements Listener {
             return false;
         }
         return true;
-    }
-
-    public Inventory createATMmenu() {
-
-        Inventory inventory = Bukkit.createInventory(null, 27, atmpre);
-        ItemStack glass = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS);
-        ItemStack depoitem = new ItemStack(Material.CHEST);
-        ItemStack withitem = new ItemStack(Material.DROPPER);
-        ItemMeta glassmeta = glass.getItemMeta();
-        ItemMeta depometa = depoitem.getItemMeta();
-        ItemMeta withmeta = withitem.getItemMeta();
-        glassmeta.setDisplayName(" ");
-        glass.setItemMeta(glassmeta);
-        depometa.setDisplayName("§e§l預け入れ");
-        depoitem.setItemMeta(depometa);
-        withmeta.setDisplayName("§6§l引き出し");
-        withitem.setItemMeta(withmeta);
-
-        int[] glassi = {0,4,8,9,13,17,18,22,26};
-        int[] depo = {1,2,3,10,11,12,19,20,21};
-        int[] with = {5,6,7,14,15,16,23,24,25};
-
-        for (int i : glassi) {
-            inventory.setItem(i, glass);
-        }
-        for (int i = 0 ; i < depo.length ; i++) {
-            inventory.setItem(depo[i], depoitem);
-            inventory.setItem(with[i], withitem);
-        }
-        return inventory;
-
     }
 
     public static Inventory createenchInv() {
